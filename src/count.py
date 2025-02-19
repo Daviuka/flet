@@ -13,6 +13,7 @@ def main(page: ft.Page):
     def mais(e):
         num1.value = str(int(num1.value) + 1)
         page.update()
+        
     def janela_evento(e):
         match e.data:
             case 'moved':
