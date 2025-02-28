@@ -1,26 +1,27 @@
 import flet as ft
+from .templates.page1 import Page1
+from .templates.page2 import Page2
 
 
 def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0)
+    page.title = 'Meu app de Páginas'
+    page.horizontal_alignment = ft.MainAxisAlignment.CENTER
+    page.window.width = 500
+    page.window.height = 500
 
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
+    def rotas(route):
+        page.controls.clear()
+        if route == '/':
+            tela = Page1(page)
+        elif route == '/tela2':
+            tela = Page2(page)
+        else:
+            tela = Page1(page)
 
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD, on_click=increment_click
-    )
-    page.add(
-        ft.SafeArea(
-            ft.Container(
-                counter,
-                alignment=ft.alignment.center,
-            ),
-            expand=True,
-        )
-    )
+        page.add(tela.construir())
+        page.update()
 
+    page.on_route_change = lambda e: rotas(e.route)
+    page.go('/')
 
 ft.app(main)
